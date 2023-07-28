@@ -1,34 +1,8 @@
 import {useSelector,useDispatch} from 'react-redux'
-import {pause,resume,restart,moveDown,moveLeft,moveRight,rotate} from '../actions'
-import {useEffect} from 'react'
+import {pause,resume,restart} from '../actions'
 export default function ScoreBoard(){
-    const dispatch=useDispatch();
     const game=useSelector((state)=>state.game)
-    const {isRunning,score,lines,level,gameOver}=game;
-    
-    useEffect(()=>{
-        const handleKeyDown=(e)=>{
-            if(isRunning&&!gameOver){
-                switch(e.key){
-                    case 'ArrowLeft':
-                        dispatch(moveLeft());
-                        break;
-                    case 'ArrowUp':
-                        dispatch(rotate());
-                        break;
-                    case 'ArrowRight':
-                        dispatch(moveRight());
-                        break;
-                    case 'ArrowDown':
-                        dispatch(moveDown());
-                }
-            }
-        };
-        document.addEventListener('keydown',handleKeyDown)
-        return ()=>{
-            document.removeEventListener('keydown',handleKeyDown)
-        };
-    },[!isRunning||gameOver]);
+    const {score,lines,level}=game;
     return(
         <>
             <div className="scoreboard">
@@ -45,6 +19,15 @@ export default function ScoreBoard(){
                     value={level}
                 />
             </div>
+        </>
+    );
+}
+export function Buttons(){
+    const dispatch=useDispatch();
+    const game=useSelector((state)=>state.game)
+    const {isRunning,gameOver}=game;
+    return(
+        <>
             <Button onClick={()=>{
                     if(gameOver){
                         return;
@@ -63,11 +46,11 @@ export default function ScoreBoard(){
         </>
     );
 }
-function TextDisplay({metric,value}){
+export function TextDisplay({metric,value}){
     return (
         <h3>{metric}: {value}</h3>
     );
 }
-function Button(props){
+export function Button(props){
     return <button className="meta" id={props.id} onClick={props.onClick}>{props.text}</button>
 }
