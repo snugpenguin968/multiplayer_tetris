@@ -2,7 +2,7 @@ import {io} from "socket.io-client";
 import { multiplayerReducer } from './reducers';
 import {createStore} from 'redux';
 import {useSelector} from 'react-redux'
-const socket=io('localhost:8080');
+const socket=io('https://multiplayer-tetris-server.onrender.com:10000');
 const reducer=createStore(multiplayerReducer);
 socket.on('gameState', (receivedGameState,receivedGameState2) => {
     const updatePlayer1State=()=>({
