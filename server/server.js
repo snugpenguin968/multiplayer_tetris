@@ -8,11 +8,9 @@ const socketIO = require('socket.io');
 const {v4:uuidV4}=require("uuid");
 const http=require("http");
 const gameStates=require('./gameState')
-const cors = require('cors');
 const app=express();
 const server=http.createServer(app);
 const port=process.env.PORT||10000;
-app.use(cors());
 const io = new Server(server, {
   cors: '*', // allow connection from any origin
 });
