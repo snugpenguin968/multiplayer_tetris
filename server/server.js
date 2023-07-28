@@ -1,19 +1,17 @@
 const index=require('./index')
 const timer=require('./Timer')
+const { gameReducer } = require('./GameReducer');
+const { pause,resume,restart,gameOver,moveLeft,moveDown,moveRight,rotate } = require('./actions');
 const express=require('express')
-const {Server}=require("socket.io")
+const socketIO = require('socket.io');
 const {v4:uuidV4}=require("uuid");
 const http=require("http");
 const gameStates=require('./gameState')
-const { gameReducer } = require('./GameReducer');
-const { pause,resume,restart,gameOver,moveLeft,moveDown,moveRight,rotate } = require('./actions');
 const app=express();
 const server=http.createServer(app);
-const port=process.env.PORT||8080;
+const port=process.env.PORT||3000;
 
-const io=new Server(server,{
-    cors:'*'
-});
+const io=socketIO(server);
 
 const rooms=new Map();
 io.on('connection',(socket)=>{
