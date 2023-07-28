@@ -2,6 +2,7 @@ const index=require('./index')
 const timer=require('./Timer')
 const { gameReducer } = require('./GameReducer');
 const { pause,resume,restart,gameOver,moveLeft,moveDown,moveRight,rotate } = require('./actions');
+const { Server } = require("socket.io");
 const express=require('express')
 const socketIO = require('socket.io');
 const {v4:uuidV4}=require("uuid");
@@ -12,7 +13,9 @@ const app=express();
 const server=http.createServer(app);
 const port=process.env.PORT||10000;
 app.use(cors());
-const io=socketIO(server);
+const io = new Server(server, {
+  cors: '*', // allow connection from any origin
+});
 
 const rooms=new Map();
 io.on('connection',(socket)=>{
